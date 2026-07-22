@@ -34,12 +34,14 @@ WORKDIR /usr/share/caddy/html/
 COPY . .
 
 # Install dependencies with composer
-RUN composer validate --strict \
+RUN composer validate --strict --no-check-version \
   && composer install \
-  --no-interaction \
-  --no-progress \
-  --no-scripts \
-  --no-dev \
+    --no-interaction \
+    --no-progress \
+    --no-scripts \
+    --no-dev \
+    --prefer-dist \
+    --optimize-autoloader \
   && composer clear-cache
 
 # Install NPM dependencies and build frontend assets

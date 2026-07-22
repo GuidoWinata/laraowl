@@ -109,3 +109,50 @@ services:
       retries: 5
     networks:
       - laraowl-network
+
+  db:
+    image: postgres:17-alpine
+    restart: always
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_DB: ${DB_DATABASE}
+      POSTGRES_USER: ${DB_USERNAME}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    env_file:
+      - .env
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "pg_isready -U ${DB_USERNAME} -d ${DB_DATABASE}"
+        ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - laraowl-network
+
+  redis:
+    image: bitnami/redis:latest
+    platform: linux/amd64
+    restart: always
+    volumes:
+      - redis-data:/bitnami/redis/data
+    environment:
+      ALLOW_EMPTY_PASSWORD: "no"
+      REDIS_PASSWORD: ${REDIS_PASSWORD}
+      REDIS_DISABLE_COMMANDS: FLUSHDB,FLUSHALL
+    env_file:
+      - .env
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "echo 'auth ${REDIS_PASSWORD}\nping' | redis-cli | grep PONG"
+        ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - laraowl-network

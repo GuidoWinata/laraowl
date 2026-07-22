@@ -157,13 +157,12 @@ services:
     networks:
       - laraowl-network
 
-  
-  volumes:
-    db-data:
-    redis-data:
-    storage:
-    public:
+volumes:
+  db-data: {}
+  redis-data: {}
+  storage: {}
+  public: {}
 
-  networks:
-    laraowl-network:
-      driver: bridge
+networks:
+  laraowl-network:
+    driver: bridge

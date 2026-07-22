@@ -77,27 +77,26 @@ services:
       - laraowl-network
 
   caddy:
-    image: caddy:2-alpine
+    build:
+      context: .
+      dockerfile: docker/Caddy.Dockerfile
+    image: laraowl-caddy:${APP_VERSION:-1.1.0}
     restart: unless-stopped
     depends_on:
       app:
         condition: service_started
-    ports:
-      - 80:80
-      - 443:443
+      reverb:
+        condition: service_started
+    expose:
+      - "80"
     volumes:
-      - ./docker/Caddyfile:/etc/caddy/Caddyfile
       - storage:/usr/share/caddy/html/storage:rw
       - public:/usr/share/caddy/html/public:ro
-      - caddy_data:/data
-      - caddy_config:/config
-    env_file:
-      - .env
     healthcheck:
-      test: ["CMD", "wget", "--no-check-certificate", "--quiet", "--spider", "https://localhost/"]
+      test: ["CMD", "wget", "--quiet", "--spider", "http://localhost/up"]
       interval: 10s
       timeout: 5s
-      retries: 3
+      retries: 5
     networks:
       - laraowl-network
 
@@ -146,8 +145,6 @@ volumes:
   redis-data:
   storage:
   public:
-  caddy_data:
-  caddy_config:
 
 networks:
   laraowl-network:

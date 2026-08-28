@@ -138,7 +138,7 @@ services:
     image: redis:8.6
     restart: always
     volumes:
-      - redis-data:/data
+      - redis-data:/data-3
     command:
       - redis-server
       - --requirepass

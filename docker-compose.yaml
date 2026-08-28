@@ -135,11 +135,11 @@ services:
       - laraowl-network
 
   redis:
-    image: bitnami/redis:8.2
+    image: bitnami/redis:latest
     platform: linux/amd64
     restart: always
     volumes:
-      - redis-data:/bitnami/redis/data
+      - redis-data-2:/bitnami/redis/data
     environment:
       ALLOW_EMPTY_PASSWORD: "no"
       REDIS_PASSWORD: ${REDIS_PASSWORD}

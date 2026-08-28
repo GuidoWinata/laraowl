@@ -135,7 +135,7 @@ services:
       - laraowl-network
 
   redis:
-    image: redis:8.4
+    image: bitnami/redis:sha256-14e8f7808bc940cce1e4928e2bf2b4965da3cc92a5cc5b68599f84633ea87287.sig
     platform: linux/amd64
     restart: always
     volumes:

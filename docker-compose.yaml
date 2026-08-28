@@ -139,7 +139,7 @@ services:
     platform: linux/amd64
     restart: always
     volumes:
-      - redis-data-2:/bitnami/redis/data
+      - redis-data:/bitnami/redis/data-2
     environment:
       ALLOW_EMPTY_PASSWORD: "no"
       REDIS_PASSWORD: ${REDIS_PASSWORD}
